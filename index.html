@@ -313,6 +313,38 @@ footer{
 }
 footer .dot{display:inline-block;width:3px;height:3px;border-radius:50%;background:rgba(246,236,243,.4);vertical-align:middle;margin:0 10px}
 
+/* ===== 点击爱心 ===== */
+.tap-love{
+  position:fixed;left:0;top:0;
+  pointer-events:none;z-index:70;
+  font-family:"Ma Shan Zheng","Noto Serif SC",serif;
+  font-size:clamp(1.35rem,3.2vw,1.95rem);
+  letter-spacing:.06em;white-space:nowrap;
+  color:#e2567f;
+  text-shadow:0 0 14px rgba(255,255,255,.95),0 2px 12px rgba(190,90,120,.4);
+  transform:translate(-50%,-50%);
+  animation:tapLove 1.9s cubic-bezier(.2,.7,.3,1) forwards;
+  will-change:transform,opacity;
+}
+@keyframes tapLove{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.55) rotate(var(--rot))}
+  16%{opacity:1;transform:translate(-50%,-52%) scale(1.14) rotate(var(--rot))}
+  30%{transform:translate(-50%,-54%) scale(1) rotate(var(--rot))}
+  100%{opacity:0;transform:translate(-50%,-150%) scale(1.02) rotate(var(--rot))}
+}
+.tap-ring{
+  position:fixed;left:0;top:0;width:100px;height:100px;
+  margin:-50px 0 0 -50px;border-radius:50%;
+  border:1px solid rgba(226,86,127,.75);
+  pointer-events:none;z-index:69;
+  transform:translate(0,0) scale(.12);
+  opacity:.9;
+  animation:tapRing 1.05s cubic-bezier(.2,.7,.3,1) forwards;
+}
+@keyframes tapRing{
+  0%{opacity:.85;transform:translate(0,0) scale(.12)}
+  100%{opacity:0;transform:translate(0,0) scale(1)}
+}
 @media (max-width:520px){
   .timeline{padding-left:34px}
   .tl-item::before{left:-30px}
@@ -663,6 +695,33 @@ footer .dot{display:inline-block;width:3px;height:3px;border-radius:50%;backgrou
     clearTimeout(rt);
     rt = setTimeout(function(){ resize(); init(); }, 200);
   });
+})();
+
+/* ===== 点击弹出「嘉欣我爱你」 ===== */
+(function(){
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if (t && t.closest && t.closest('a, button, input, textarea, select')) return;
+    spawn(e.clientX, e.clientY);
+  }, { passive: true });
+
+  function spawn(x, y){
+    var ring = document.createElement('span');
+    ring.className = 'tap-ring';
+    ring.style.left = x + 'px';
+    ring.style.top = y + 'px';
+    document.body.appendChild(ring);
+    setTimeout(function(){ ring.remove(); }, 1150);
+
+    var el = document.createElement('span');
+    el.className = 'tap-love';
+    el.textContent = '嘉欣我爱你';
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    el.style.setProperty('--rot', (Math.random() * 10 - 5).toFixed(1) + 'deg');
+    document.body.appendChild(el);
+    setTimeout(function(){ el.remove(); }, 2000);
+  }
 })();
 </script>
 </body>
