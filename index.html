@@ -382,6 +382,19 @@ footer .dot{display:inline-block;width:3px;height:3px;border-radius:50%;backgrou
   animation-name:eggFall;animation-timing-function:linear;animation-fill-mode:forwards;will-change:transform}
 @keyframes eggFall{0%{transform:translateY(0) rotate(0deg);opacity:1}
   100%{transform:translateY(108vh) rotate(340deg);opacity:.15}}
+/* 彩蛋排版补充 */
+.egg-hi{color:#c2455f;font-weight:600;letter-spacing:.05em}
+.egg-mid{margin:26px 0 8px;text-align:center;font-family:"Ma Shan Zheng",serif;
+  font-size:clamp(1.15rem,3.3vw,1.5rem);line-height:2;color:#8e4a5e;letter-spacing:.1em}
+.egg-mid span{display:block;font-size:.74em;color:#a8687a;letter-spacing:.1em;margin-top:4px}
+.seal-tip{position:fixed;z-index:78;transform:translate(-50%,0);pointer-events:none;
+  font-size:.66rem;letter-spacing:.16em;color:#8e4a5e;background:rgba(255,253,248,.94);
+  padding:5px 12px;border-radius:999px;box-shadow:0 6px 18px -8px rgba(142,74,94,.6);
+  animation:tipFade .95s ease forwards}
+@keyframes tipFade{0%{opacity:0;transform:translate(-50%,8px)}
+  22%{opacity:1;transform:translate(-50%,0)}
+  75%{opacity:1}
+  100%{opacity:0;transform:translate(-50%,-5px)}}
 @media (max-width:520px){
   .timeline{padding-left:34px}
   .tl-item::before{left:-30px}
@@ -761,29 +774,58 @@ footer .dot{display:inline-block;width:3px;height:3px;border-radius:50%;backgrou
   }
 })();
 
-/* ===== 火漆爱心彩蛋 ===== */
+/* ===== 火漆爱心彩蛋（连点三次触发） ===== */
 (function(){
   function init(){
     var seal = document.querySelector('.letter .seal');
     var egg = document.getElementById('egg');
     if (!seal || !egg) return;
 
+    var NEED = 3, count = 0, resetTimer = null;
+
     seal.setAttribute('role', 'button');
     seal.setAttribute('tabindex', '0');
-    seal.setAttribute('aria-label', '打开彩蛋');
+    seal.setAttribute('aria-label', '打开彩蛋，需要点击三次');
 
     function open(){
       if (egg.classList.contains('on')) return;
-      seal.classList.add('pulse');
-      setTimeout(function(){ seal.classList.remove('pulse'); }, 1250);
       egg.classList.add('on');
       rain();
     }
     function close(){ egg.classList.remove('on'); }
 
-    seal.addEventListener('click', function(e){ e.stopPropagation(); open(); });
+    function tip(left){
+      var r = seal.getBoundingClientRect();
+      var s = document.createElement('span');
+      s.className = 'seal-tip';
+      s.textContent = '再点 ' + left + ' 次';
+      s.style.left = (r.left + r.width / 2) + 'px';
+      s.style.top = (r.bottom + 10) + 'px';
+      document.body.appendChild(s);
+      setTimeout(function(){ s.remove(); }, 1000);
+    }
+
+    function tap(){
+      count++;
+      seal.classList.remove('pulse');
+      void seal.offsetWidth;
+      seal.classList.add('pulse');
+      setTimeout(function(){ seal.classList.remove('pulse'); }, 1200);
+
+      if (count >= NEED){
+        count = 0;
+        clearTimeout(resetTimer);
+        open();
+        return;
+      }
+      tip(NEED - count);
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(function(){ count = 0; }, 2600);
+    }
+
+    seal.addEventListener('click', function(e){ e.stopPropagation(); tap(); });
     seal.addEventListener('keydown', function(e){
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tap(); }
     });
     egg.addEventListener('click', function(e){
       if (e.target === egg || (e.target.closest && e.target.closest('.egg-close'))) close();
@@ -793,7 +835,7 @@ footer .dot{display:inline-block;width:3px;height:3px;border-radius:50%;backgrou
     });
 
     function rain(){
-      var n = window.innerWidth < 600 ? 16 : 28;
+      var n = window.innerWidth < 600 ? 18 : 30;
       for (var i = 0; i < n; i++){
         var h = document.createElement('span');
         h.className = 'egg-heart';
@@ -821,11 +863,12 @@ footer .dot{display:inline-block;width:3px;height:3px;border-radius:50%;backgrou
 <!-- ===== 彩蛋弹层 ===== -->
 <div class="egg" id="egg">
   <div class="egg-card">
-    <div class="egg-tag">彩蛋 No.01 &nbsp;·&nbsp; 大概只有你会点这里</div>
+    <div class="egg-tag">彩蛋 No.01 &nbsp;·&nbsp; 你为它点了三次</div>
     <h3>你找到它了</h3>
-    <p>这封信我改了三遍，前两遍都写得像工作总结，删到最后，只剩下一些不敢当面说的话。</p>
-    <p>其实去年那天，我说「我们试试看」的时候，心里想的是——试试看能不能过一辈子。</p>
-    <p>现在第一年过去了，我大概知道了答案。</p>
+    <p>嘉欣，我不太会安慰人，但你皱眉的时候，我会先抱你五秒。</p>
+    <p>你那些玩笑我都听懂了。下次你说不爱我，我就认真看着你，说一句——<span class="egg-hi">可我爱你</span>。</p>
+    <p>这一年我学会一件事：你的不安不用解决，接着就好。</p>
+    <div class="egg-mid">一周年快乐<span>以后每一天，我都这样接着你。</span></div>
     <div class="egg-sign">—— 你老公</div>
     <button class="egg-close" type="button">收好，别告诉别人</button>
     <div class="egg-hint">点空白处也可以关掉</div>
