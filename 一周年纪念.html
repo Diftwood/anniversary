@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一周年 · 我们的第一年</title>
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Ma+Shan+Zheng&display=swap">
+<style>
+/* ===== 基础 ===== */
+:root{
+  --rose:#c2758a;
+  --rose-deep:#8e4a5e;
+  --gold:#c19a5b;
+  --ink:#392e2b;
+  --ink-soft:#6b5a53;
+  --paper:#fbf6f0;
+  --cream:#f3e8dc;
+  --line:rgba(142,74,94,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Noto Serif SC","Songti SC","SimSun",serif;
+  color:var(--ink);
+  background:var(--paper);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block}
+::selection{background:rgba(194,117,138,.25)}
+
+/* ===== 顶部滚动进度 ===== */
+.progress{
+  position:fixed;top:0;left:0;height:2px;width:0;
+  background:linear-gradient(90deg,var(--gold),var(--rose));
+  z-index:60;
+}
+
+/* ===== 飘落粒子 ===== */
+#petals{position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.55}
+
+/* ===== 首屏 ===== */
+.hero{
+  position:relative;
+  height:100svh;min-height:620px;
+  display:grid;place-items:center;
+  overflow:hidden;isolation:isolate;
+  text-align:center;
+  padding:0 6vw;
+}
+.hero-bg{
+  position:absolute;inset:-6%;
+  width:112%;height:112%;
+  object-fit:cover;
+  z-index:-2;
+  will-change:transform;
+}
+.hero::after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:
+    radial-gradient(ellipse at 50% 62%,rgba(56,26,36,.06) 0%,rgba(43,21,30,.42) 62%,rgba(36,17,25,.62) 100%),
+    linear-gradient(to bottom,rgba(40,20,28,.30),rgba(40,20,28,.18) 40%,rgba(40,20,28,.52));
+}
+.hero-inner{color:#fff6f1;max-width:760px}
+.eyebrow{
+  font-family:"Ma Shan Zheng","Noto Serif SC",serif;
+  font-size:clamp(.8rem,1.7vw,1rem);
+  letter-spacing:.5em;text-indent:.5em;
+  text-transform:uppercase;
+  color:rgba(255,238,228,.78);
+  margin-bottom:clamp(18px,3vh,34px);
+  opacity:0;animation:fadeUp 1.1s .35s forwards;
+}
+.hero h1{
+  font-family:"Ma Shan Zheng","Noto Serif SC",serif;
+  font-weight:400;
+  font-size:clamp(3.6rem,12vw,8rem);
+  line-height:1.05;
+  letter-spacing:.06em;
+  text-shadow:0 10px 40px rgba(60,20,35,.45);
+  opacity:0;animation:fadeUp 1.3s .55s forwards;
+}
+.hero .sub{
+  margin-top:clamp(16px,2.4vh,24px);
+  font-size:clamp(.85rem,1.6vw,1.05rem);
+  letter-spacing:.28em;text-indent:.28em;
+  color:rgba(255,240,232,.9);
+  opacity:0;animation:fadeUp 1.3s .8s forwards;
+}
+.hero .poem{
+  margin-top:clamp(28px,4vh,48px);
+  font-size:clamp(1rem,2.1vw,1.35rem);
+  line-height:2;
+  letter-spacing:.1em;
+  color:rgba(255,244,238,.94);
+  opacity:0;animation:fadeUp 1.4s 1.05s forwards;
+}
+.hero .poem span{display:block}
+.hero .rule{
+  width:56px;height:1px;background:rgba(255,236,226,.55);
+  margin:clamp(24px,3.4vh,40px) auto 0;
+  opacity:0;animation:fadeIn 1s 1.4s forwards;
+}
+.scroll-hint{
+  position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+  color:rgba(255,238,230,.7);font-size:.72rem;letter-spacing:.3em;
+  display:grid;justify-items:center;gap:10px;
+  opacity:0;animation:fadeIn 1s 1.9s forwards;
+}
+.scroll-hint i{
+  display:block;width:1px;height:38px;
+  background:linear-gradient(to bottom,rgba(255,238,230,.7),transparent);
+  animation:breathe 2.4s ease-in-out infinite;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes breathe{0%,100%{transform:scaleY(.6);opacity:.4}50%{transform:scaleY(1);opacity:1}}
+
+/* ===== 通用版心与滚动渐入 ===== */
+.wrap{max-width:880px;margin:0 auto;padding:0 clamp(22px,6vw,40px)}
+.section{padding:clamp(78px,13vh,150px) 0;position:relative}
+.section-head{text-align:center;margin-bottom:clamp(44px,7vh,76px)}
+.section-head .kicker{
+  font-size:.72rem;letter-spacing:.42em;text-indent:.42em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:18px;
+}
+.section-head h2{
+  font-size:clamp(1.5rem,3.6vw,2.2rem);
+  letter-spacing:.12em;font-weight:600;
+}
+.section-head h2::after{
+  content:"";display:block;width:34px;height:1px;
+  background:var(--rose);opacity:.5;margin:22px auto 0;
+}
+.section-head p{
+  margin-top:18px;color:var(--ink-soft);
+  font-size:clamp(.86rem,1.6vw,1rem);line-height:1.9;letter-spacing:.05em;font-weight:300;
+}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 1s cubic-bezier(.22,.7,.3,1),transform 1s cubic-bezier(.22,.7,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ===== 数字区 ===== */
+.count{
+  background:
+    radial-gradient(ellipse at 20% 10%,rgba(193,154,91,.10),transparent 60%),
+    radial-gradient(ellipse at 85% 90%,rgba(194,117,138,.10),transparent 55%),
+    var(--cream);
+  border-top:1px solid rgba(142,74,94,.08);
+  border-bottom:1px solid rgba(142,74,94,.08);
+}
+.count-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:clamp(28px,5vw,56px);
+  text-align:center;
+}
+.count-item .num{
+  font-family:"Ma Shan Zheng","Noto Serif SC",serif;
+  font-size:clamp(3rem,8vw,4.6rem);
+  line-height:1;color:var(--rose-deep);
+  font-variant-numeric:tabular-nums;
+}
+.count-item .unit{
+  display:inline-block;margin-left:6px;font-size:1rem;letter-spacing:.16em;color:var(--ink-soft);
+  font-family:"Noto Serif SC",serif;
+}
+.count-item .label{
+  margin-top:16px;font-size:.82rem;letter-spacing:.2em;color:var(--ink-soft);font-weight:300;
+}
+.count-note{
+  margin:clamp(44px,7vh,64px) auto 0;max-width:620px;
+  text-align:center;font-size:clamp(.86rem,1.6vw,1rem);
+  line-height:2.1;color:var(--ink-soft);font-weight:300;letter-spacing:.04em;
+}
+
+/* ===== 时间线 ===== */
+.timeline{position:relative;padding-left:42px}
+.timeline::before{
+  content:"";position:absolute;left:9px;top:6px;bottom:6px;width:1px;
+  background:linear-gradient(to bottom,transparent,rgba(193,154,91,.55) 12%,rgba(193,154,91,.55) 88%,transparent);
+}
+.tl-item{position:relative;margin-bottom:clamp(40px,6vh,60px)}
+.tl-item:last-child{margin-bottom:0}
+.tl-item::before{
+  content:"";position:absolute;left:-38px;top:5px;
+  width:9px;height:9px;border-radius:50%;
+  background:var(--paper);border:1px solid var(--rose);
+  box-shadow:0 0 0 5px rgba(194,117,138,.10);
+}
+.tl-item .date{
+  font-size:.76rem;letter-spacing:.24em;color:var(--gold);margin-bottom:12px;font-weight:600;
+}
+.tl-item h3{
+  font-size:clamp(1.1rem,2.4vw,1.42rem);font-weight:600;letter-spacing:.06em;margin-bottom:12px;
+}
+.tl-item p{
+  color:var(--ink-soft);font-weight:300;font-size:clamp(.9rem,1.7vw,1rem);line-height:2.05;letter-spacing:.03em;
+}
+
+/* ===== 信 ===== */
+.letter-section{
+  background:linear-gradient(to bottom,rgba(243,232,220,.5),rgba(243,232,220,.9));
+}
+.letter{
+  position:relative;
+  max-width:660px;margin:0 auto;
+  background:#fffdf7;
+  padding:clamp(34px,6vw,64px) clamp(26px,5vw,56px);
+  box-shadow:0 30px 70px -35px rgba(90,50,60,.45),0 1px 0 rgba(255,255,255,.9) inset;
+  border-radius:2px;
+  border-top:3px solid rgba(193,154,91,.35);
+}
+.letter::before{
+  content:"";position:absolute;inset:14px;
+  border:1px solid rgba(193,154,91,.22);pointer-events:none;
+}
+.letter .seal{
+  position:absolute;right:clamp(22px,4vw,40px);top:clamp(22px,4vw,36px);
+  width:44px;height:44px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#d98fa1,#9c5266);
+  box-shadow:0 6px 16px -6px rgba(142,74,94,.6);
+  display:grid;place-items:center;
+  transform:rotate(-8deg);
+}
+.letter .seal svg{width:20px;height:20px;fill:rgba(255,240,235,.9)}
+.letter .to{
+  font-family:"Ma Shan Zheng",serif;font-size:clamp(1.3rem,3vw,1.7rem);
+  color:var(--rose-deep);margin-bottom:26px;letter-spacing:.1em;
+}
+.letter p{
+  font-size:clamp(.92rem,1.75vw,1.03rem);
+  line-height:2.35;letter-spacing:.05em;
+  color:#453936;font-weight:300;
+  margin-bottom:1.15em;
+  text-indent:2em;
+}
+.letter p:last-of-type{text-indent:0;text-align:right;margin-bottom:0;margin-top:34px;color:var(--ink-soft)}
+.letter p.sign{
+  text-align:right;font-family:"Ma Shan Zheng",serif;
+  font-size:1.5rem;color:var(--rose-deep);margin-top:6px;text-indent:0;
+}
+
+/* ===== 回忆卡片 ===== */
+.cards{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:clamp(18px,3vw,28px);
+}
+.card{
+  position:relative;overflow:hidden;border-radius:3px;
+  background:#fff;
+  box-shadow:0 24px 50px -34px rgba(90,50,60,.55);
+}
+.card-media{overflow:hidden;aspect-ratio:4/3}
+.card-media img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform 1.1s cubic-bezier(.2,.7,.3,1);
+}
+.card:hover .card-media img{transform:scale(1.06)}
+.card-body{padding:clamp(20px,3vw,28px)}
+.card-body h3{font-size:1.02rem;font-weight:600;letter-spacing:.08em;margin-bottom:10px}
+.card-body p{font-size:.85rem;line-height:1.95;color:var(--ink-soft);font-weight:300;letter-spacing:.03em}
+
+/* ===== 未来清单 ===== */
+.wish{background:var(--cream);border-top:1px solid rgba(142,74,94,.08)}
+.wish-list{max-width:620px;margin:0 auto;list-style:none}
+.wish-list li{
+  display:flex;gap:18px;align-items:flex-start;
+  padding:22px 0;border-bottom:1px dashed rgba(142,74,94,.22);
+  font-size:clamp(.92rem,1.7vw,1.02rem);line-height:1.9;font-weight:300;color:var(--ink);
+}
+.wish-list li:last-child{border-bottom:none}
+.wish-list li b{
+  flex:none;width:24px;height:24px;margin-top:2px;
+  border:1px solid rgba(193,154,91,.7);border-radius:50%;
+  display:grid;place-items:center;
+  font-size:.66rem;font-weight:400;color:var(--gold);
+  font-family:"Noto Serif SC",serif;
+}
+
+/* ===== 结尾 ===== */
+.finale{
+  position:relative;overflow:hidden;isolation:isolate;
+  min-height:88svh;display:grid;place-items:center;
+  text-align:center;padding:clamp(90px,14vh,150px) 6vw;
+  color:#f6ecf3;
+}
+.finale-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.finale::after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(to bottom,rgba(24,18,42,.55),rgba(24,18,42,.72) 55%,rgba(20,14,36,.9));
+}
+.finale h2{
+  font-family:"Ma Shan Zheng",serif;font-weight:400;
+  font-size:clamp(1.7rem,5vw,3rem);line-height:1.7;letter-spacing:.08em;
+  text-shadow:0 8px 30px rgba(10,6,25,.5);
+}
+.finale .after{
+  margin-top:clamp(30px,5vh,48px);
+  font-size:clamp(.88rem,1.7vw,1rem);line-height:2.2;letter-spacing:.14em;
+  color:rgba(246,236,243,.82);font-weight:300;
+}
+.finale .heart{
+  display:inline-block;margin-top:44px;animation:beat 2.6s ease-in-out infinite;
+}
+.finale .heart svg{width:26px;height:26px;fill:rgba(226,150,170,.9)}
+@keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.16)}24%{transform:scale(1)}36%{transform:scale(1.1)}48%{transform:scale(1)}}
+
+/* ===== 页脚 ===== */
+footer{
+  text-align:center;padding:clamp(48px,7vh,72px) 6vw;
+  background:#2a1c22;color:rgba(246,236,243,.5);
+  font-size:.74rem;letter-spacing:.24em;line-height:2.2;font-weight:300;
+}
+footer .dot{display:inline-block;width:3px;height:3px;border-radius:50%;background:rgba(246,236,243,.4);vertical-align:middle;margin:0 10px}
+
+@media (max-width:520px){
+  .timeline{padding-left:34px}
+  .tl-item::before{left:-30px}
+  .letter p{line-height:2.15}
+}
+@media (prefers-reduced-motion:reduce){
+  .reveal{transition:none;opacity:1;transform:none}
+  .hero-bg{transform:none!important}
+  #petals{display:none}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<canvas id="petals"></canvas>
+
+<!-- ===== 首屏 ===== -->
+<header class="hero">
+  <img class="hero-bg" id="heroBg" src="assets/hero.jpg" alt="黄昏花海">
+  <div class="hero-inner">
+    <div class="eyebrow">Our First Year</div>
+    <h1>一周年</h1>
+    <div class="sub">2025 · 11 · 22 &nbsp;—&nbsp; 2026 · 11 · 22</div>
+    <div class="rule"></div>
+    <div class="poem">
+      <span>第一年，</span>
+      <span>把日子过成了「我们」。</span>
+    </div>
+  </div>
+  <div class="scroll-hint">往下走一点<i></i></div>
+</header>
+
+<!-- ===== 数字 ===== -->
+<section class="section count">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">Counting</div>
+      <h2>从那天算起</h2>
+    </div>
+    <div class="count-grid">
+      <div class="count-item reveal">
+        <div class="num" data-count="365" id="numDays">0</div><span class="unit">天</span>
+        <div class="label">我们在一起的日子</div>
+      </div>
+      <div class="count-item reveal">
+        <div class="num" data-count="0" id="numWed">0</div><span class="unit">天</span>
+        <div class="label">你是我的太太</div>
+      </div>
+      <div class="count-item reveal">
+        <div class="num" data-count="1">0</div><span class="unit">年</span>
+        <div class="label">刚刚走完的第一年</div>
+      </div>
+    </div>
+    <p class="count-note reveal">
+      一整年，四季各来了一次，吵架、和好、加班、旅行，都算在里面。<br>
+      数字很小，但每一天都是真的。
+    </p>
+  </div>
+</section>
+
+<!-- ===== 时间线 ===== -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">Timeline</div>
+      <h2>这一年的三次转折</h2>
+      <p>有些日子过去之后，才知道它是分界线。</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="date">2025 · 11 · 22</div>
+        <h3>那天，我们把两条日子并成一条</h3>
+        <p>没有仪式，没有宣言，只是忽然觉得——以后的事想先和这个人说。在我心里，从那天起晚安不再是一个词，而是一句爱彼此的约定。</p>
+      </div>
+      <div class="tl-item reveal">
+        <div class="date">2026 · 10 · 22</div>
+        <h3>在武安，把你写进往后每一年</h3>
+        <p>婚礼那天很热闹，我记得的却是散场之后，我们忙完回家、躺在床上说「好累」的样子。那一刻我才明白，仪式只有一天，日子有很长。</p>
+      </div>
+      <div class="tl-item reveal">
+        <div class="date">2026 · 11 · 22</div>
+        <h3>一周年这天：第一年结束，第二年开始</h3>
+        <p>我们可能没变成别人眼里那种完美的一对，但我们都还在原地，也还在往前走。这已经是我能想到最好的结果。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 信 ===== -->
+<section class="section letter-section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">A Letter</div>
+      <h2>有些话，写在纸上更好</h2>
+    </div>
+    <div class="letter reveal">
+      <div class="seal">
+        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      </div>
+      <div class="to">嘉欣：</div>
+      <p>这一年过得不慢，也不算快。</p>
+      <p>我记得很多没什么用的小事：你穿着宽松衣服给我端饭那两分钟；吃饭时先把我爱吃的那一口夹过来；坐车睡着、头一点一点的样子；晚上我加班，你趴在窗户上等我留下印子，你半夜说外面下雨了要接我。这些都不值得发朋友圈，但它们差不多就是这一年的全部。</p>
+      <p>我其实不是会说话的人。可对着你，我总找不到恰当的词——好像所有现成的句子都轻了一点。</p>
+      <p>所以我做了这个网页。它比我本人会说话。</p>
+      <p>去年今天，我以为自己在开始一段恋爱。这一年走下来才发现，我是在开始一种生活：有人等我回家，有人陪我把琐碎的日子一件件摆平。累的时候不用解释，安静也不尴尬。</p>
+      <p>谢谢你愿意。</p>
+      <p>下一个周年，下下个周年，我还是会认真回答你每一次试探，也会在你不安的时候，一遍遍告诉你：我在呢，杨嘉欣。</p>
+      <p class="sign">——晚了一天给你的老公</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 回忆卡片 ===== -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">Moments</div>
+      <h2>把日常过成了风景</h2>
+      <p>没有哪一天特别了不起，加起来才了不起。</p>
+    </div>
+    <div class="cards">
+      <article class="card reveal">
+        <div class="card-media"><img src="assets/hero.jpg" alt="一起走过的小路"></div>
+        <div class="card-body">
+          <h3>一起走过的路</h3>
+          <p>下班后绕远的那条路，多出来的十分钟，是我们一天里最松的十分钟。</p>
+        </div>
+      </article>
+      <article class="card reveal">
+        <div class="card-media"><img src="assets/still.jpg" alt="桌上的花与信"></div>
+        <div class="card-body">
+          <h3>一起吃过的饭</h3>
+          <p>你做饭我洗碗，我做饭你嫌咸。厨房那盏灯，是这一年的底色。</p>
+        </div>
+      </article>
+      <article class="card reveal">
+        <div class="card-media"><img src="assets/night.jpg" alt="夜晚的星空"></div>
+        <div class="card-body">
+          <h3>一起看过的夜</h3>
+          <p>睡不着的时候聊很久，把白天没说完的话说给夜里听，第二天照样早起。</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 未来清单 ===== -->
+<section class="section wish">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">To Do · Together</div>
+      <h2>明年想做的几件事</h2>
+    </div>
+    <ul class="wish-list">
+      <li class="reveal"><b>01</b><span>明年今天，再去一次马小唬吃炖锅，最好坐武安同一个位置。</span></li>
+      <li class="reveal"><b>02</b><span>带你去看一次演唱会，让你大声唱歌像小孩。</span></li>
+      <li class="reveal"><b>03</b><span>找出并做三道你爱吃的菜，做得你满意为止。</span></li>
+      <li class="reveal"><b>04</b><span>每年拍一张合照，收藏在我们的相册里</span></li>
+      <li class="reveal"><b>05</b><span>五十岁的时候，把这个网页重新打开一次，看看当年的自己多会写。</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 结尾 ===== -->
+<section class="finale">
+  <img class="finale-bg" src="assets/night.jpg" alt="深夜的星空">
+  <div>
+    <h2>第二年、第十年、第五十年<br>我都想和你一起拆开</h2>
+    <div class="after">2026 · 11 · 22 &nbsp;·&nbsp; 我们的第一个周年</div>
+    <div class="heart">
+      <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    </div>
+  </div>
+</section>
+
+<footer>
+  写于 2026 年 11 月 22 日<span class="dot"></span>为你，也只为你
+</footer>
+
+<script>
+/* ===== 天数计算 ===== */
+(function(){
+  var START = new Date(2025, 10, 22);   // 2025-11-22 在一起的起点
+  var WED   = new Date(2026, 9, 22);    // 2026-10-22 婚礼
+  var DAY   = 86400000;
+  var today = new Date();
+  today.setHours(0,0,0,0);
+
+  var total = Math.round((today - START) / DAY);
+  var wed   = Math.round((today - WED) / DAY);
+  if (wed < 0) wed = 0;
+
+  document.getElementById('numDays').setAttribute('data-count', total);
+  document.getElementById('numWed').setAttribute('data-count', wed);
+  document.getElementById('numWed').parentElement.querySelector('.label').textContent =
+    wed > 0 ? '你是我的太太' : '还没到那天';
+})();
+
+/* ===== 数字滚动 ===== */
+(function(){
+  var els = document.querySelectorAll('.num[data-count]');
+  var done = new Set();
+
+  function animate(el){
+    var target = parseInt(el.getAttribute('data-count'), 10) || 0;
+    var start = performance.now(), dur = 1300;
+    function step(t){
+      var p = Math.min((t - start) / dur, 1);
+      var e = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * e).toLocaleString('en-US');
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = target.toLocaleString('en-US');
+    }
+    requestAnimationFrame(step);
+  }
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting && !done.has(en.target)){
+        done.add(en.target);
+        animate(en.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  els.forEach(function(el){ io.observe(el); });
+})();
+
+/* ===== 滚动渐入 ===== */
+(function(){
+  var items = document.querySelectorAll('.reveal');
+  // 同组元素错位出现
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){
+        var siblings = Array.prototype.slice.call(en.target.parentElement.children);
+        var idx = siblings.indexOf(en.target);
+        en.target.style.transitionDelay = Math.min(idx, 4) * 0.12 + 's';
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+
+  items.forEach(function(el){ io.observe(el); });
+})();
+
+/* ===== 滚动进度 + 首屏视差 ===== */
+(function(){
+  var bar = document.getElementById('progress');
+  var bg  = document.getElementById('heroBg');
+  var ticking = false;
+
+  function update(){
+    var y = window.scrollY || document.documentElement.scrollTop;
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
+    if (bg && y < window.innerHeight * 1.2){
+      bg.style.transform = 'translate3d(0,' + (y * 0.22) + 'px,0) scale(1.04)';
+    }
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function(){
+    if (!ticking){ ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+
+  update();
+})();
+
+/* ===== 飘落的花瓣 / 光点 ===== */
+(function(){
+  var cvs = document.getElementById('petals');
+  if (!cvs) return;
+  var ctx = cvs.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var W, H, petals = [];
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+
+  function resize(){
+    W = cvs.width = window.innerWidth * dpr;
+    H = cvs.height = window.innerHeight * dpr;
+    cvs.style.width = window.innerWidth + 'px';
+    cvs.style.height = window.innerHeight + 'px';
+  }
+
+  function P(){
+    this.reset(true);
+  }
+  P.prototype.reset = function(first){
+    this.x = Math.random() * W;
+    this.y = first ? Math.random() * H : -30 * dpr;
+    this.r = (Math.random() * 3.2 + 1.6) * dpr;
+    this.vy = (Math.random() * 0.5 + 0.25) * dpr;
+    this.vx = (Math.random() - 0.5) * 0.5 * dpr;
+    this.rot = Math.random() * Math.PI * 2;
+    this.vr = (Math.random() - 0.5) * 0.04;
+    this.alpha = Math.random() * 0.5 + 0.25;
+    this.heart = Math.random() > 0.45;
+  };
+  P.prototype.step = function(){
+    this.y += this.vy;
+    this.x += this.vx + Math.sin(this.y / (90 * dpr)) * 0.25 * dpr;
+    this.rot += this.vr;
+    if (this.y > H + 40) this.reset(false);
+  };
+  P.prototype.draw = function(){
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.rot);
+    if (this.heart){
+      ctx.fillStyle = 'rgba(214,140,160,' + this.alpha + ')';
+      ctx.beginPath();
+      var s = this.r * 1.5;
+      ctx.moveTo(0, s * 0.75);
+      ctx.bezierCurveTo(-s, s * 0.1, -s * 0.9, -s * 0.75, 0, -s * 0.3);
+      ctx.bezierCurveTo(s * 0.9, -s * 0.75, s, s * 0.1, 0, s * 0.75);
+      ctx.fill();
+    } else {
+      ctx.fillStyle = 'rgba(255,236,214,' + this.alpha + ')';
+      ctx.beginPath();
+      ctx.arc(0, 0, this.r * 0.7, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  };
+
+  function init(){
+    petals = [];
+    var n = window.innerWidth < 700 ? 16 : 26;
+    for (var i = 0; i < n; i++) petals.push(new P());
+  }
+
+  function loop(){
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < petals.length; i++){
+      petals[i].step();
+      petals[i].draw();
+    }
+    requestAnimationFrame(loop);
+  }
+
+  resize(); init(); loop();
+
+  var rt;
+  window.addEventListener('resize', function(){
+    clearTimeout(rt);
+    rt = setTimeout(function(){ resize(); init(); }, 200);
+  });
+})();
+</script>
+</body>
+</html>
